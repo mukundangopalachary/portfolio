@@ -1,0 +1,16 @@
+{
+  "name": "Mukundan Gopalachary",
+  "short_name": "MG",
+  "description": "Backend & Full-Stack Engineer",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0c0c0c",
+  "theme_color": "#0c0c0c",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ]
+}
