@@ -1,0 +1,132 @@
+---
+import '../../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  canonicalURL?: string;
+}
+
+const {
+  title = 'Mukundan Gopalachary — Backend & Full-Stack Engineer',
+  description = 'Final-year CS student building backend systems, distributed services, and full-stack applications.',
+  ogImage = '/og-default.png',
+  canonicalURL = Astro.url.href,
+} = Astro.props;
+
+const siteUrl = 'https://mukundangopalachary.pages.dev';
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={`${siteUrl}${ogImage}`} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mukundan Gopalachary" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      />
+    </noscript>
+
+    <!-- Theme init — must run before paint to avoid flash -->
+    <script is:inline>
+      (function () {
+        const stored = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+  </head>
+  <body>
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[var(--color-accent)] focus:text-[#0c0c0c] focus:rounded focus:font-medium"
+    >
+      Skip to main content
+    </a>
+    <slot />
+
+    <script>
+      import { animate, inView, stagger } from 'motion';
+
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (!prefersReduced) {
+        const ease = [0.25, 0.1, 0.25, 1] as const;
+
+        // Hide all fade-up elements initially
+        document.querySelectorAll<HTMLElement>('[data-animate="fade-up"]').forEach(el => {
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(24px)';
+        });
+
+        // Hide all stagger-grid children initially
+        document.querySelectorAll<HTMLElement>('[data-animate-child]').forEach(el => {
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(20px)';
+        });
+
+        // Fade-up: sections that scroll into view
+        document.querySelectorAll<HTMLElement>('[data-animate="fade-up"]').forEach(el => {
+          inView(el, () => {
+            animate(el,
+              { opacity: 1, transform: 'translateY(0px)' },
+              { duration: 0.55, easing: ease }
+            );
+          }, { margin: '0px 0px -8% 0px', once: true });
+        });
+
+        // Stagger grids: animate children when grid enters view
+        document.querySelectorAll<HTMLElement>('[data-animate="stagger-grid"]').forEach(grid => {
+          const children = Array.from(grid.querySelectorAll<HTMLElement>('[data-animate-child]'));
+          if (!children.length) return;
+          inView(grid, () => {
+            animate(children,
+              { opacity: 1, transform: 'translateY(0px)' },
+              { duration: 0.45, delay: stagger(0.09), easing: ease }
+            );
+          }, { margin: '0px 0px -5% 0px', once: true });
+        });
+      }
+    </script>
+  </body>
+</html>

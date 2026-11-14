@@ -1,0 +1,59 @@
+---
+import Badge from './Badge.astro';
+import type { ProjectMeta } from '../../lib/types';
+
+type Props = Omit<ProjectMeta, 'order'>;
+
+const { title, slug, description, status, techs, github, featured } = Astro.props;
+
+const statusLabels: Record<ProjectMeta['status'], string> = {
+  complete: 'Complete',
+  active: 'Active Development',
+  practice: 'Practice Project',
+};
+---
+
+<article class="group relative flex flex-col border border-[var(--color-border)] rounded-lg p-6 bg-[var(--color-surface)] hover:border-[var(--color-accent)]/40 transition-colors">
+  <div class="flex items-start justify-between gap-4 mb-3">
+    <h3 class="font-semibold text-[var(--color-text)] group-hover:text-[var(--color-accent)] transition-colors">
+      <a href={`/projects/${slug}`} class="after:absolute after:inset-0">
+        {title}
+      </a>
+    </h3>
+    <Badge label={statusLabels[status]} variant={status} />
+  </div>
+
+  <p class="text-sm text-[var(--color-text-muted)] mb-5 flex-1 leading-relaxed">
+    {description}
+  </p>
+
+  <div class="flex flex-col gap-4">
+    <div class="flex flex-wrap gap-1.5">
+      {techs.slice(0, 5).map((tech) => (
+        <Badge label={tech} variant="tech" />
+      ))}
+      {techs.length > 5 && (
+        <span class="text-xs text-[var(--color-text-muted)] px-1 py-0.5">+{techs.length - 5}</span>
+      )}
+    </div>
+
+    <div class="flex gap-3 relative z-10">
+      <a
+        href={`/projects/${slug}`}
+        class="text-xs text-[var(--color-accent)] hover:opacity-80 transition-opacity font-medium"
+      >
+        Case study →
+      </a>
+      {github && (
+        <a
+          href={github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-xs text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors"
+        >
+          GitHub ↗
+        </a>
+      )}
+    </div>
+  </div>
+</article>

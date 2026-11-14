@@ -1,0 +1,46 @@
+---
+import { SITE, SOCIAL } from '../../lib/constants';
+
+const year = new Date().getFullYear();
+
+const footerLinks = [
+  { key: 'github', href: SOCIAL.github.url, label: 'GitHub' },
+  { key: 'linkedin', href: SOCIAL.linkedin.url, label: 'LinkedIn' },
+  { key: 'leetcode', href: SOCIAL.leetcode.url, label: 'LeetCode' },
+  { key: 'codeforces', href: SOCIAL.codeforces.url, label: 'Codeforces' },
+];
+---
+
+<footer class="border-t border-[var(--color-border)] mt-24">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-10">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+      <div>
+        <p class="font-semibold text-[var(--color-text)]">{SITE.name}</p>
+        <p class="text-sm text-[var(--color-text-muted)] mt-1">Backend & Full-Stack Engineer</p>
+      </div>
+
+      <div class="flex flex-wrap gap-4">
+        {footerLinks.map(({ href, label }) => (
+          <a
+            href={href}
+            target={href.startsWith('http') ? '_blank' : undefined}
+            rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+            class="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors"
+          >
+            {label}
+          </a>
+        ))}
+        <a
+          href="/mukundan_backend_resume.pdf"
+          download
+          class="text-sm text-[var(--color-accent)] hover:opacity-80 transition-opacity"
+        >
+          Resume ↓
+        </a>
+      </div>
+    </div>
+    <p class="text-xs text-[var(--color-text-muted)] mt-8">
+      © {year} {SITE.name}. Built with Astro.
+    </p>
+  </div>
+</footer>
