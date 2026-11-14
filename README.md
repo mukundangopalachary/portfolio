@@ -72,7 +72,13 @@ public/
 
 ## Deployment (Cloudflare Pages)
 
-See CLAUDE.md for deployment instructions.
+1. Push to GitHub
+2. Cloudflare Pages → **Create** → **Connect to Git** → select repo
+3. Build command: `npm run build`
+4. Output directory: `dist`
+5. Environment variable: `NODE_VERSION = 22`
+
+To use a custom domain, update `site` in `astro.config.mjs` and `SITE.url` in `src/lib/constants.ts`, then redeploy.
 
 ## Updating social links
 
