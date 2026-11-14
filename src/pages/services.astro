@@ -1,0 +1,136 @@
+---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import Badge from '../components/ui/Badge.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import { SOCIAL } from '../lib/constants';
+
+interface ServiceCard {
+  name: string;
+  description: string;
+  tags: string[];
+}
+
+const services: ServiceCard[] = [
+  {
+    name: 'Backend Development',
+    description:
+      'Design and build server-side applications using Java/Spring Boot or Python/FastAPI. REST API design, service structure, and database integration. Suitable for standalone services or additions to existing systems.',
+    tags: ['Java', 'Spring Boot', 'Python', 'FastAPI', 'PostgreSQL'],
+  },
+  {
+    name: 'Full-Stack Development',
+    description:
+      'Build complete web applications from API to UI. Backend in Spring Boot or FastAPI, frontend in Next.js with TypeScript. Suitable for internal tools, dashboards, or small product prototypes.',
+    tags: ['Next.js', 'TypeScript', 'Spring Boot', 'PostgreSQL'],
+  },
+  {
+    name: 'API Engineering',
+    description:
+      'Design and implement REST APIs — endpoint design, authentication, documentation, and versioning. Includes integration with databases and third-party services.',
+    tags: ['REST APIs', 'JWT', 'PostgreSQL', 'Redis'],
+  },
+  {
+    name: 'Cloud & Deployment',
+    description:
+      'Containerise applications with Docker and deploy to cloud infrastructure. Linux server configuration, Nginx reverse proxy, basic AWS setup. Suitable for getting a working application hosted reliably.',
+    tags: ['Docker', 'Linux', 'Nginx', 'AWS'],
+  },
+];
+
+const platforms = [
+  { label: 'Fiverr', href: SOCIAL.fiverr.url },
+  { label: 'Topmate', href: SOCIAL.topmate.url },
+  { label: 'Gumroad', href: SOCIAL.gumroad.url },
+];
+---
+
+<BaseLayout
+  title="Services — Mukundan Gopalachary"
+  description="Freelance backend development, full-stack development, API engineering, and cloud deployment."
+>
+  <Header />
+
+  <main id="main-content" class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pt-10 pb-20">
+
+    <!-- Intro -->
+    <section class="mb-12">
+      <h1 class="text-4xl font-bold text-[var(--color-text)] mb-4">Services</h1>
+      <div class="max-w-xl space-y-3">
+        <p class="text-[var(--color-text-muted)] leading-relaxed">
+          I take on freelance work alongside my studies. If you need a backend, API, or
+          deployment built correctly, I can help.
+        </p>
+        <p class="text-sm text-[var(--color-text-muted)] leading-relaxed">
+          I'm a final-year CS student with real project experience. I take engineering quality
+          seriously and I won't take on work I can't do well.
+        </p>
+      </div>
+    </section>
+
+    <!-- Service cards -->
+    <section class="mb-12">
+      <SectionHeading title="What I offer" />
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" data-animate="stagger-grid">
+        {services.map((service) => (
+          <div class="border border-[var(--color-border)] rounded-lg p-6 bg-[var(--color-surface)] flex flex-col gap-4" data-animate-child>
+            <h3 class="text-base font-semibold text-[var(--color-text)]">
+              {service.name}
+            </h3>
+            <p class="text-sm text-[var(--color-text-muted)] leading-relaxed flex-1">
+              {service.description}
+            </p>
+            <div class="flex flex-wrap gap-2">
+              {service.tags.map((tag) => (
+                <Badge label={tag} variant="tech" />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Platforms -->
+    <section class="mb-12">
+      <SectionHeading title="Available on" />
+
+      <div class="flex flex-wrap gap-4">
+        {platforms.map(({ label, href }) =>
+          href === '#placeholder' ? (
+            <span class="text-[var(--color-text-muted)] opacity-50 text-sm select-none">
+              {label}
+              <span class="ml-1 text-xs font-mono opacity-70">(coming soon)</span>
+            </span>
+          ) : (
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors"
+            >
+              {label}
+            </a>
+          )
+        )}
+      </div>
+    </section>
+
+    <!-- Contact CTA -->
+    <section>
+      <p class="text-[var(--color-text-muted)]">
+        Have a project in mind?{' '}
+        <a
+          href="/contact"
+          class="text-[var(--color-accent)] hover:opacity-80 transition-opacity"
+        >
+          → Get in touch
+        </a>
+      </p>
+    </section>
+
+  </main>
+
+  <Footer />
+</BaseLayout>

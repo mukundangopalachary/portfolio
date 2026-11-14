@@ -1,0 +1,180 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Badge from '../../components/ui/Badge.astro';
+import Button from '../../components/ui/Button.astro';
+import ProjectImageGallery from '../../components/react/ProjectImageGallery';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<'projects'>;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const statusLabels: Record<string, string> = {
+  complete: 'Complete',
+  active: 'Active Development',
+  practice: 'Practice Project',
+};
+
+// Build prev/next navigation based on order
+const allProjects = await getCollection('projects');
+const sorted = allProjects.sort((a, b) => a.data.order - b.data.order);
+const currentIndex = sorted.findIndex((p) => p.id === entry.id);
+const prevProject = currentIndex > 0 ? sorted[currentIndex - 1] : null;
+const nextProject = currentIndex < sorted.length - 1 ? sorted[currentIndex + 1] : null;
+
+// Images: define paths in frontmatter `images` array (relative to /public)
+// e.g. images: ["/content/sysmon_1.jpg", "/content/sysmon_2.jpg"]
+// If no images defined, placeholder boxes are shown.
+const images: string[] = entry.data.images ?? [];
+---
+
+<BaseLayout
+  title={`${entry.data.title} — Mukundan Gopalachary`}
+  description={entry.data.description}
+>
+  <Header />
+
+  <main id="main-content">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+
+      <!-- Back link -->
+      <nav aria-label="Breadcrumb" class="mb-10">
+        <a
+          href="/projects"
+          class="inline-flex items-center gap-1.5 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors"
+        >
+          <span aria-hidden="true">←</span>
+          <span>Projects</span>
+        </a>
+      </nav>
+
+      <!-- Page hero -->
+      <header class="mb-12">
+        <div class="mb-4">
+          <Badge
+            label={statusLabels[entry.data.status] ?? entry.data.status}
+            variant={entry.data.status}
+          />
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl font-bold text-[var(--color-text)] mb-4 leading-tight">
+          {entry.data.title}
+        </h1>
+
+        <p class="text-lg text-[var(--color-text-muted)] mb-6 max-w-2xl leading-relaxed">
+          {entry.data.description}
+        </p>
+
+        <!-- Tech stack -->
+        <div class="flex flex-wrap gap-2 mb-6" aria-label="Technologies used">
+          {entry.data.techs.map((tech) => (
+            <Badge label={tech} variant="tech" />
+          ))}
+        </div>
+
+        <!-- GitHub link -->
+        {entry.data.github && (
+          <Button href={entry.data.github} variant="secondary" external>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+            </svg>
+            View on GitHub
+          </Button>
+        )}
+
+        <!-- Project images -->
+        <div class="mt-10">
+          <h2 class="text-sm font-mono text-[var(--color-text-muted)] uppercase tracking-widest mb-4">
+            Project images
+          </h2>
+          {images.length > 0 ? (
+            <ProjectImageGallery
+              images={images}
+              title={entry.data.title}
+              client:load
+            />
+          ) : (
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {Array.from({ length: 3 }).map(() => (
+                <div
+                  class="aspect-video rounded-lg border border-dashed border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-center"
+                >
+                  <span class="text-xs text-[var(--color-text-muted)] font-mono">Image coming soon</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </header>
+
+      <!-- Prose content -->
+      <article class="prose max-w-3xl" data-animate="fade-up">
+        <Content />
+      </article>
+
+      <!-- Bottom navigation: previous / next project -->
+      {(prevProject || nextProject) && (
+        <nav
+          aria-label="Project navigation"
+          class="mt-16 pt-8 border-t border-[var(--color-border)] flex flex-col sm:flex-row justify-between gap-4"
+          data-animate="fade-up"
+        >
+          {prevProject ? (
+            <a
+              href={`/projects/${prevProject.id}`}
+              class="group flex flex-col gap-1 max-w-xs"
+            >
+              <span class="text-xs text-[var(--color-text-muted)] font-mono uppercase tracking-wider">
+                ← Previous
+              </span>
+              <span class="text-sm font-medium text-[var(--color-text)] group-hover:text-[var(--color-accent)] transition-colors">
+                {prevProject.data.title}
+              </span>
+            </a>
+          ) : (
+            <div />
+          )}
+
+          {nextProject ? (
+            <a
+              href={`/projects/${nextProject.id}`}
+              class="group flex flex-col gap-1 max-w-xs sm:items-end"
+            >
+              <span class="text-xs text-[var(--color-text-muted)] font-mono uppercase tracking-wider">
+                Next →
+              </span>
+              <span class="text-sm font-medium text-[var(--color-text)] group-hover:text-[var(--color-accent)] transition-colors">
+                {nextProject.data.title}
+              </span>
+            </a>
+          ) : (
+            <div />
+          )}
+        </nav>
+      )}
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

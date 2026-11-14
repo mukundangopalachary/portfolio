@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import Badge from '../components/ui/Badge.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+
+const skillGroups = [
+  {
+    name: 'Languages',
+    skills: ['C', 'C++', 'Java', 'Python', 'JavaScript', 'TypeScript', 'SQL'],
+  },
+  {
+    name: 'Backend',
+    skills: ['Spring Boot', 'Spring Cloud', 'FastAPI', 'REST APIs'],
+  },
+  {
+    name: 'Frontend',
+    skills: ['React', 'Next.js', 'Tailwind CSS'],
+  },
+  {
+    name: 'Databases',
+    skills: ['PostgreSQL', 'MySQL', 'SQLite', 'Redis'],
+  },
+  {
+    name: 'Messaging & Streaming',
+    skills: ['Apache Kafka'],
+  },
+  {
+    name: 'Infrastructure',
+    skills: ['Docker', 'Linux', 'Nginx', 'AWS'],
+  },
+  {
+    name: 'Dev Tools',
+    skills: ['Git', 'GitHub', 'CMake', 'Maven', 'GitHub Actions'],
+  },
+  {
+    name: 'Data & ML',
+    skills: ['pandas', 'scikit-learn', 'statsmodels', 'XGBoost', 'Power BI'],
+  },
+] as const;
+---
+
+<BaseLayout
+  title="Skills — Mukundan Gopalachary"
+  description="Programming languages, backend frameworks, frontend tools, databases, and infrastructure used by Mukundan Gopalachary."
+>
+  <Header />
+
+  <main id="main-content" class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16">
+
+    <!-- Intro -->
+    <section class="mb-16">
+      <h1 class="text-4xl font-bold text-[var(--color-text)] mb-4">Skills</h1>
+      <p class="text-[var(--color-text-muted)]">
+        Technologies I work with across backend, frontend, and infrastructure.
+      </p>
+    </section>
+
+    <!-- Skill groups grid -->
+    <section class="mb-16">
+      <SectionHeading title="Technologies" />
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" data-animate="stagger-grid">
+        {skillGroups.map((group) => (
+          <div class="border border-[var(--color-border)] rounded-lg p-5 bg-[var(--color-surface)]" data-animate-child>
+            <p class="text-xs font-mono text-[var(--color-text-muted)] uppercase tracking-wider mb-3">
+              {group.name}
+            </p>
+            <div class="flex flex-wrap gap-2">
+              {group.skills.map((skill) => (
+                <Badge label={skill} variant="tech" />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Honest context note -->
+    <p class="text-sm text-[var(--color-text-muted)] max-w-2xl leading-relaxed">
+      Proficiency varies by technology. Backend engineering and Java/Spring Boot are my primary
+      focus areas. Frontend, data, and infrastructure skills are functional but secondary.
+    </p>
+
+  </main>
+
+  <Footer />
+</BaseLayout>

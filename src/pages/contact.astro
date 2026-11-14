@@ -1,0 +1,140 @@
+---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import { SITE, SOCIAL } from '../lib/constants';
+
+const platforms = [
+  { label: 'Fiverr', href: SOCIAL.fiverr.url },
+  { label: 'Topmate', href: SOCIAL.topmate.url },
+  { label: 'Gumroad', href: SOCIAL.gumroad.url },
+];
+---
+
+<BaseLayout
+  title="Contact — Mukundan Gopalachary"
+  description="Get in touch for backend development, full-stack projects, internship opportunities, or general enquiries."
+>
+  <Header />
+
+  <main id="main-content" class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pt-10 pb-20">
+
+    <!-- Intro -->
+    <section class="mb-12">
+      <h1 class="text-4xl font-bold text-[var(--color-text)] mb-4">Contact</h1>
+      <p class="text-[var(--color-text-muted)] max-w-xl leading-relaxed">
+        Open to backend and full-stack freelance work, final-year internship opportunities, and
+        general engineering conversations.
+      </p>
+    </section>
+
+    <!-- Contact methods -->
+    <section class="mb-12">
+      <SectionHeading title="Get in touch" />
+
+      <ul class="space-y-4 max-w-sm">
+        <li class="flex flex-col gap-0.5">
+          <span class="text-xs font-mono text-[var(--color-text-muted)] uppercase tracking-wider">
+            Email
+          </span>
+          <a
+            href={`mailto:${SITE.email}`}
+            class="text-[var(--color-accent)] hover:opacity-80 transition-opacity text-sm"
+          >
+            {SITE.email}
+          </a>
+        </li>
+
+        <li class="flex flex-col gap-0.5">
+          <span class="text-xs font-mono text-[var(--color-text-muted)] uppercase tracking-wider">
+            GitHub
+          </span>
+          <a
+            href={SOCIAL.github.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-[var(--color-accent)] hover:opacity-80 transition-opacity text-sm"
+          >
+            github.com/mukundangopalachary
+          </a>
+        </li>
+
+        <li class="flex flex-col gap-0.5">
+          <span class="text-xs font-mono text-[var(--color-text-muted)] uppercase tracking-wider">
+            LinkedIn
+          </span>
+          <a
+            href={SOCIAL.linkedin.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-[var(--color-accent)] hover:opacity-80 transition-opacity text-sm"
+          >
+            linkedin.com/in/mukundan-gopalachary-997075283
+          </a>
+        </li>
+
+        <li class="flex flex-col gap-0.5">
+          <span class="text-xs font-mono text-[var(--color-text-muted)] uppercase tracking-wider">
+            LeetCode
+          </span>
+          <a
+            href={SOCIAL.leetcode.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-[var(--color-accent)] hover:opacity-80 transition-opacity text-sm"
+          >
+            leetcode.com/u/mukundangopalachary
+          </a>
+        </li>
+
+        <li class="flex flex-col gap-0.5">
+          <span class="text-xs font-mono text-[var(--color-text-muted)] uppercase tracking-wider">
+            Codeforces
+          </span>
+          <a
+            href={SOCIAL.codeforces.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-[var(--color-accent)] hover:opacity-80 transition-opacity text-sm"
+          >
+            codeforces.com/profile/mukundangopalachary
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Freelance platforms -->
+    <section class="mb-12">
+      <SectionHeading title="Freelance platforms" />
+
+      <div class="flex flex-wrap gap-4">
+        {platforms.map(({ label, href }) =>
+          href === '#placeholder' ? (
+            <span class="text-[var(--color-text-muted)] opacity-50 text-sm select-none">
+              {label}
+              <span class="ml-1 text-xs font-mono opacity-70">(coming soon)</span>
+            </span>
+          ) : (
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors"
+            >
+              {label}
+            </a>
+          )
+        )}
+      </div>
+    </section>
+
+    <!-- Response note -->
+    <p class="text-sm text-[var(--color-text-muted)] max-w-sm">
+      I'll respond by email. No contact form — just send a message directly.
+    </p>
+
+  </main>
+
+  <Footer />
+</BaseLayout>

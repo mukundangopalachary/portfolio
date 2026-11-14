@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
+import ProjectCard from '../../components/ui/ProjectCard.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+
+const projects = await getCollection('projects');
+const sorted = projects.sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Projects — Mukundan Gopalachary"
+  description="Backend systems, microservices, and full-stack projects including Sysmon, FinTwin, PickANew, and a sales forecasting pipeline."
+>
+  <Header />
+
+  <main id="main-content">
+    <section class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <div class="mb-10">
+        <h1 class="text-2xl font-semibold text-[var(--color-text)]">Projects</h1>
+        <p class="mt-2 text-[var(--color-text-muted)]">A selection of systems I've built or am actively developing.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6" data-animate="stagger-grid">
+        {sorted.map((entry) => (
+          <div data-animate-child>
+            <ProjectCard
+              title={entry.data.title}
+              slug={entry.id}
+              description={entry.data.description}
+              status={entry.data.status}
+              techs={entry.data.techs}
+              github={entry.data.github}
+              featured={entry.data.featured}
+            />
+          </div>
+        ))}
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,144 @@
+---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import Button from '../components/ui/Button.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import { SOCIAL, SITE } from '../lib/constants';
+---
+
+<BaseLayout
+  title="About — Mukundan Gopalachary"
+  description="B.Tech CSE student at SRM IST focused on backend engineering, distributed systems, and software architecture."
+>
+  <Header />
+
+  <main id="main-content" class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pt-10 pb-20">
+
+    <!-- Intro -->
+    <section class="mb-12">
+      <h1 class="text-4xl font-bold text-[var(--color-text)] mb-4">About</h1>
+
+      <div class="max-w-2xl space-y-5">
+        <p class="text-[var(--color-text-muted)] leading-relaxed">
+          I'm a final-year B.Tech Computer Science and Engineering student at SRM Institute of
+          Science and Technology, Ramapuram. My primary focus is backend engineering — the parts
+          of a system that most users never see but that determine whether the whole thing holds
+          together under real conditions.
+        </p>
+        <p class="text-[var(--color-text-muted)] leading-relaxed">
+          I'm interested in how systems scale, how services communicate, and how infrastructure is
+          designed. That means distributed systems, service architecture, messaging, and
+          deployment — areas where the interesting problems live once a project grows past a
+          single process or a single machine.
+        </p>
+        <p class="text-[var(--color-text-muted)] leading-relaxed">
+          I work across the full stack when the problem calls for it. Frontend development is
+          part of my toolkit, and I've shipped complete applications from API to UI. But my
+          thinking gravitates toward the backend — data flow, service boundaries, and system
+          reliability.
+        </p>
+        <p class="text-[var(--color-text-muted)] leading-relaxed">
+          I'm still a student. I have real project experience, a data analyst internship, and a
+          reasonably clear picture of the engineer I want to become. I'm not claiming expert
+          status across everything I work with — but I take the work seriously and I'm
+          consistently building.
+        </p>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="mb-12" data-animate="fade-up">
+      <SectionHeading title="Education" />
+
+      <div class="border border-[var(--color-border)] rounded-lg p-6 max-w-xl bg-[var(--color-surface)]">
+        <p class="text-sm font-mono text-[var(--color-text-muted)] uppercase tracking-wider mb-3">
+          B.Tech Computer Science and Engineering
+        </p>
+        <p class="text-lg font-semibold text-[var(--color-text)]">
+          SRM Institute of Science and Technology, Ramapuram
+        </p>
+        <p class="text-sm text-[var(--color-text-muted)] mt-1">
+          Expected graduation: 2026
+        </p>
+      </div>
+    </section>
+
+    <!-- What I work on -->
+    <section class="mb-12" data-animate="fade-up">
+      <SectionHeading title="What I work on" />
+
+      <ul class="max-w-xl space-y-4">
+        <li class="flex flex-col gap-1">
+          <span class="text-[var(--color-text)] font-medium">Backend systems</span>
+          <span class="text-sm text-[var(--color-text-muted)]">
+            APIs, service architecture, data flow
+          </span>
+        </li>
+        <li class="flex flex-col gap-1">
+          <span class="text-[var(--color-text)] font-medium">Distributed systems</span>
+          <span class="text-sm text-[var(--color-text-muted)]">
+            Messaging, coordination, consistency
+          </span>
+        </li>
+        <li class="flex flex-col gap-1">
+          <span class="text-[var(--color-text)] font-medium">Infrastructure</span>
+          <span class="text-sm text-[var(--color-text-muted)]">
+            Containers, cloud deployment, Linux environments
+          </span>
+        </li>
+        <li class="flex flex-col gap-1">
+          <span class="text-[var(--color-text)] font-medium">Full-stack development</span>
+          <span class="text-sm text-[var(--color-text-muted)]">
+            When the problem needs it
+          </span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Competitive programming -->
+    <section class="mb-12" data-animate="fade-up">
+      <SectionHeading title="Problem solving" />
+
+      <p class="max-w-xl text-[var(--color-text-muted)] leading-relaxed">
+        I practice algorithmic problem solving on{' '}
+        <a
+          href={SOCIAL.leetcode.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-[var(--color-accent)] hover:opacity-80 transition-opacity"
+        >
+          LeetCode
+        </a>{' '}
+        and{' '}
+        <a
+          href={SOCIAL.codeforces.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-[var(--color-accent)] hover:opacity-80 transition-opacity"
+        >
+          Codeforces
+        </a>.
+        It's useful discipline for thinking through data structures and algorithms carefully,
+        and it feeds into the way I approach system design problems — looking for the right
+        structure before writing any code.
+      </p>
+    </section>
+
+    <!-- Links row -->
+    <section class="flex flex-wrap gap-3" data-animate="fade-up">
+      <Button href={SOCIAL.github.url} variant="secondary" external>
+        GitHub
+      </Button>
+      <Button href={SOCIAL.linkedin.url} variant="secondary" external>
+        LinkedIn
+      </Button>
+      <Button href="/mukundan_backend_resume.pdf" variant="primary" download="mukundan_backend_resume.pdf">
+        Download Resume
+      </Button>
+    </section>
+
+  </main>
+
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+---
+
+<BaseLayout title="404 — Page Not Found | Mukundan Gopalachary" description="This page does not exist.">
+  <Header />
+  <main id="main-content" class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-32 text-center">
+    <p style="font-size: 5rem; font-weight: 700; color: var(--color-border); line-height: 1;">404</p>
+    <h1 style="font-size: 1.25rem; font-weight: 600; color: var(--color-text); margin-top: 1rem;">Page not found</h1>
+    <p style="color: var(--color-text-muted); margin-top: 0.5rem;">The page you're looking for doesn't exist.</p>
+    <a href="/" style="display: inline-block; margin-top: 2rem; color: var(--color-accent); font-size: 0.875rem;">← Back to home</a>
+  </main>
+  <Footer />
+</BaseLayout>

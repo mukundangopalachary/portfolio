@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+---
+
+<BaseLayout
+  title="Achievements — Mukundan Gopalachary"
+  description="Technical workshops and leadership at GeekCoders, including ML and LLM workshops for 100+ participants."
+>
+  <Header />
+
+  <main id="main-content" class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16">
+
+    <!-- Intro -->
+    <section class="mb-16">
+      <h1 class="text-4xl font-bold text-[var(--color-text)] mb-4">Achievements</h1>
+    </section>
+
+    <!-- GeekCoders section -->
+    <section class="mb-16">
+      <SectionHeading title="GeekCoders — Technical Leadership" />
+
+      <div class="mb-6 max-w-2xl">
+        <p class="text-sm text-[var(--color-text-muted)] mb-1">
+          <span class="font-medium text-[var(--color-text)]">Role:</span>{' '}
+          Technical Lead
+        </p>
+        <p class="text-[var(--color-text-muted)] leading-relaxed mt-2">
+          Conducted technical workshops for student audiences at GeekCoders, covering machine
+          learning foundations and large language models.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl" data-animate="stagger-grid">
+
+        <!-- ML Workshop card -->
+        <div class="border border-[var(--color-border)] rounded-lg p-6 bg-[var(--color-surface)]" data-animate-child>
+          <div class="flex items-start justify-between gap-4 mb-4">
+            <h3 class="text-base font-semibold text-[var(--color-text)]">
+              Machine Learning Workshop
+            </h3>
+            <span class="text-sm font-mono font-semibold text-[var(--color-accent)] flex-shrink-0">
+              100+ participants
+            </span>
+          </div>
+
+          <p class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-4">
+            A hands-on workshop covering the fundamentals of machine learning, including model
+            internals, the distinction between supervised and unsupervised learning, and how to
+            evaluate model performance practically. Designed for students with little to no prior
+            ML exposure.
+          </p>
+
+          <div class="space-y-1">
+            <p class="text-xs text-[var(--color-text-muted)] font-mono uppercase tracking-wider mb-2">
+              Topics covered
+            </p>
+            <ul class="space-y-1">
+              {[
+                'ML fundamentals and core concepts',
+                'Model internals and training process',
+                'Supervised and unsupervised learning',
+                'Model evaluation and metrics',
+              ].map((topic) => (
+                <li class="flex gap-2 text-xs text-[var(--color-text-muted)]">
+                  <span class="text-[var(--color-accent)]">—</span>
+                  <span>{topic}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <!-- LLM Workshop card -->
+        <div class="border border-[var(--color-border)] rounded-lg p-6 bg-[var(--color-surface)]" data-animate-child>
+          <div class="flex items-start justify-between gap-4 mb-4">
+            <h3 class="text-base font-semibold text-[var(--color-text)]">
+              Large Language Models Workshop
+            </h3>
+            <span class="text-sm font-mono font-semibold text-[var(--color-accent)] flex-shrink-0">
+              100+ participants
+            </span>
+          </div>
+
+          <p class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-4">
+            A hands-on workshop introducing large language models — how they work, how they are
+            adapted for specific tasks through fine-tuning, and how to get practical value from
+            modern AI/ML tooling. Aimed at students curious about the applied side of LLMs.
+          </p>
+
+          <div class="space-y-1">
+            <p class="text-xs text-[var(--color-text-muted)] font-mono uppercase tracking-wider mb-2">
+              Topics covered
+            </p>
+            <ul class="space-y-1">
+              {[
+                'LLM fundamentals and architecture',
+                'Fine-tuning techniques',
+                'AI/ML tooling overview',
+                'Practical applications',
+              ].map((topic) => (
+                <li class="flex gap-2 text-xs text-[var(--color-text-muted)]">
+                  <span class="text-[var(--color-accent)]">—</span>
+                  <span>{topic}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <Footer />
+</BaseLayout>

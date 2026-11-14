@@ -1,0 +1,305 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import Button from '../components/ui/Button.astro';
+import Badge from '../components/ui/Badge.astro';
+import ProjectCard from '../components/ui/ProjectCard.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import { SITE, SOCIAL } from '../lib/constants';
+
+const allProjects = await getCollection('projects');
+const featuredProjects = allProjects
+  .filter((p) => p.data.featured)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const allExperience = await getCollection('experience');
+const latestExperience = allExperience.sort((a, b) => a.data.order - b.data.order)[0];
+
+const primaryTechs = [
+  'C++', 'Java', 'Python', 'TypeScript',
+  'Spring Boot', 'FastAPI', 'Next.js',
+  'PostgreSQL', 'Kafka', 'Docker',
+];
+
+const socialLinks = [
+  { href: SOCIAL.github.url, label: 'GitHub' },
+  { href: SOCIAL.linkedin.url, label: 'LinkedIn' },
+  { href: SOCIAL.leetcode.url, label: 'LeetCode' },
+  { href: SOCIAL.codeforces.url, label: 'Codeforces' },
+];
+---
+
+<BaseLayout
+  title={SITE.title}
+  description={SITE.description}
+>
+  <Header />
+
+  <main id="main-content">
+    <!-- ─── Hero ──────────────────────────────────────────────────────────── -->
+    <section class="min-h-[85vh] flex items-center border-b border-[var(--color-border)]">
+      <div class="mx-auto max-w-6xl w-full px-4 sm:px-6 lg:px-8 py-20">
+        <div class="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-16 items-center">
+
+          <!-- Left: Text content -->
+          <div class="max-w-2xl">
+            <p class="hero-label font-mono text-sm text-[var(--color-accent)] mb-4 tracking-wide">
+              Software Engineer
+            </p>
+
+            <h1 class="hero-name text-4xl sm:text-5xl lg:text-6xl font-bold text-[var(--color-text)] leading-[1.08] tracking-tight mb-6">
+              Mukundan<br />Gopalachary
+            </h1>
+
+            <p class="hero-tagline text-lg text-[var(--color-text)] font-medium mb-4 leading-snug">
+              I build backend systems, distributed services, and full-stack applications.
+            </p>
+
+            <p class="hero-bio text-[var(--color-text-muted)] leading-relaxed mb-10 max-w-xl">
+              Final-year CS student at SRM IST. Focused on backend engineering,
+              distributed systems, and software architecture.
+            </p>
+
+            <div class="hero-ctas flex flex-wrap gap-3 mb-10">
+              <Button href="/projects" variant="primary">View Projects</Button>
+              <Button
+                href="/mukundan_backend_resume.pdf"
+                variant="secondary"
+                download="mukundan_backend_resume.pdf"
+              >
+                Download Resume
+              </Button>
+            </div>
+
+            <div class="hero-social flex flex-wrap gap-5">
+              {socialLinks.map(({ href, label }) => (
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors"
+                >
+                  {label}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <!-- Right: Decorative stack block (desktop only) -->
+          <aside
+            aria-hidden="true"
+            class="hero-stack hidden lg:block shrink-0"
+          >
+            <div class="border border-[var(--color-border)] rounded-lg bg-[var(--color-surface)] p-5 w-72 font-mono text-xs leading-relaxed">
+              <div class="flex items-center gap-2 mb-4 pb-3 border-b border-[var(--color-border)]">
+                <span class="w-2.5 h-2.5 rounded-full bg-[var(--color-border)]"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-[var(--color-border)]"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-[var(--color-border)]"></span>
+                <span class="ml-1 text-[var(--color-text-muted)]">stack.yaml</span>
+              </div>
+              <pre class="text-[var(--color-text-muted)] whitespace-pre"><span class="text-[var(--color-accent)]">backend</span>:
+  primary: <span class="text-[var(--color-text)]">Java / Spring Boot</span>
+  secondary: <span class="text-[var(--color-text)]">Python / FastAPI</span>
+  systems: <span class="text-[var(--color-text)]">C++</span>
+
+<span class="text-[var(--color-accent)]">data</span>:
+  db: <span class="text-[var(--color-text)]">PostgreSQL</span>
+  messaging: <span class="text-[var(--color-text)]">Kafka</span>
+  cache: <span class="text-[var(--color-text)]">Redis</span>
+
+<span class="text-[var(--color-accent)]">infra</span>:
+  containers: <span class="text-[var(--color-text)]">Docker</span>
+  frontend: <span class="text-[var(--color-text)]">Next.js / TypeScript</span></pre>
+            </div>
+          </aside>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Skills signal strip ──────────────────────────────────────────── -->
+    <section class="py-14 border-b border-[var(--color-border)]" data-animate="fade-up">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <p class="text-xs text-[var(--color-text-muted)] uppercase tracking-widest mb-5 font-mono">
+          Primary technologies
+        </p>
+        <div class="flex flex-wrap gap-2">
+          {primaryTechs.map((tech) => (
+            <Badge label={tech} variant="tech" />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Featured Projects ─────────────────────────────────────────────── -->
+    <section class="py-20 border-b border-[var(--color-border)]">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <SectionHeading
+          title="Selected Projects"
+          subtitle="A few systems I've designed and built end-to-end."
+        />
+
+        {featuredProjects.length > 0 ? (
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10" data-animate="stagger-grid">
+            {featuredProjects.map((project) => (
+              <div data-animate-child>
+                <ProjectCard
+                  title={project.data.title}
+                  slug={project.id}
+                  description={project.data.description}
+                  status={project.data.status}
+                  techs={project.data.techs}
+                  github={project.data.github}
+                  featured={project.data.featured}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p class="text-[var(--color-text-muted)] text-sm mb-10">Projects coming soon.</p>
+        )}
+
+        <a
+          href="/projects"
+          class="text-sm text-[var(--color-accent)] hover:opacity-80 transition-opacity font-medium"
+        >
+          All projects →
+        </a>
+      </div>
+    </section>
+
+    <!-- ─── Experience strip ──────────────────────────────────────────────── -->
+    <section class="py-20 border-b border-[var(--color-border)]" data-animate="fade-up">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <SectionHeading title="Experience" />
+
+        {latestExperience && (
+          <div class="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-8 mb-10">
+            <!-- Timeline accent -->
+            <div class="hidden sm:flex flex-col items-center pt-1.5 shrink-0">
+              <div class="w-2 h-2 rounded-full bg-[var(--color-accent)]"></div>
+              <div class="w-px flex-1 mt-2 bg-[var(--color-border)]"></div>
+            </div>
+
+            <div>
+              <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-1">
+                <h3 class="font-semibold text-[var(--color-text)]">
+                  {latestExperience.data.company}
+                </h3>
+                <span class="text-sm text-[var(--color-text-muted)]">
+                  {latestExperience.data.role}
+                </span>
+              </div>
+              <p class="text-xs font-mono text-[var(--color-text-muted)] mb-3">
+                {latestExperience.data.period} · {latestExperience.data.location}
+              </p>
+              <p class="text-sm text-[var(--color-text-muted)] leading-relaxed max-w-2xl">
+                {latestExperience.data.summary}
+              </p>
+            </div>
+          </div>
+        )}
+
+        <a
+          href="/experience"
+          class="text-sm text-[var(--color-accent)] hover:opacity-80 transition-opacity font-medium"
+        >
+          Full experience →
+        </a>
+      </div>
+    </section>
+
+    <!-- ─── Contact strip ─────────────────────────────────────────────────── -->
+    <section class="py-20" data-animate="fade-up">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <SectionHeading title="Get in touch" />
+
+        <p class="text-[var(--color-text-muted)] leading-relaxed max-w-xl mb-6">
+          Open to backend and full-stack engineering roles, internships, and freelance projects.
+          If you have something interesting to build, let's talk.
+        </p>
+
+        <a
+          href={`mailto:${SITE.email}`}
+          class="inline-block text-[var(--color-accent)] font-mono text-sm hover:opacity-80 transition-opacity mb-10"
+        >
+          {SITE.email}
+        </a>
+
+        <div class="flex flex-wrap gap-6 items-center">
+          {[
+            { label: 'Fiverr', url: SOCIAL.fiverr.url },
+            { label: 'Topmate', url: SOCIAL.topmate.url },
+            { label: 'Gumroad', url: SOCIAL.gumroad.url },
+          ].map(({ label, url }) =>
+            url === '#placeholder' ? (
+              <span class="text-sm text-[var(--color-text-muted)] opacity-50 select-none">
+                {label}
+                <span class="ml-1 text-xs font-mono opacity-70">(coming soon)</span>
+              </span>
+            ) : (
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors"
+              >
+                {label}
+              </a>
+            )
+          )}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <script>
+    import { animate } from 'motion';
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!prefersReduced) {
+      const ease = [0.25, 0.1, 0.25, 1] as const;
+
+      // Hide hero elements initially
+      const heroEls = ['.hero-label', '.hero-name', '.hero-tagline', '.hero-bio', '.hero-ctas', '.hero-social', '.hero-stack'];
+      heroEls.forEach(sel => {
+        const el = document.querySelector<HTMLElement>(sel);
+        if (el) {
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(16px)';
+        }
+      });
+
+      // Stack block slides in from right, so override its transform
+      const heroStack = document.querySelector<HTMLElement>('.hero-stack');
+      if (heroStack) {
+        heroStack.style.transform = 'translateX(20px)';
+      }
+
+      const sequence: [string, number][] = [
+        ['.hero-label', 0.08],
+        ['.hero-name', 0.18],
+        ['.hero-tagline', 0.38],
+        ['.hero-bio', 0.52],
+        ['.hero-ctas', 0.62],
+        ['.hero-social', 0.76],
+      ];
+
+      sequence.forEach(([sel, delay]) => {
+        const el = document.querySelector<HTMLElement>(sel);
+        if (!el) return;
+        animate(el, { opacity: 1, transform: 'translateY(0px)' }, { duration: 0.55, delay, easing: ease });
+      });
+
+      // Stack block slides in from right
+      const stackEl = document.querySelector<HTMLElement>('.hero-stack');
+      if (stackEl) {
+        animate(stackEl, { opacity: 1, transform: 'translateX(0px)' }, { duration: 0.6, delay: 0.45, easing: ease });
+      }
+    }
+  </script>
+</BaseLayout>

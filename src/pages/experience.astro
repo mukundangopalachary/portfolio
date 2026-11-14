@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import { getCollection } from 'astro:content';
+
+const entries = await getCollection('experience');
+const sorted = entries.sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Experience — Mukundan Gopalachary"
+  description="Data analyst internship at Brakes India and professional history."
+>
+  <Header />
+
+  <main id="main-content" class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16">
+
+    <!-- Intro -->
+    <section class="mb-16">
+      <h1 class="text-4xl font-bold text-[var(--color-text)] mb-4">Experience</h1>
+      <p class="text-[var(--color-text-muted)] max-w-xl">
+        Professional experience and work history.
+      </p>
+    </section>
+
+    <!-- Experience entries -->
+    <section class="mb-16">
+      <SectionHeading title="Work history" />
+
+      <div class="space-y-10">
+        {sorted.map((entry) => (
+          <div class="flex gap-6" data-animate="fade-up">
+            <!-- Timeline accent -->
+            <div class="flex flex-col items-center pt-1.5 flex-shrink-0">
+              <div class="w-2.5 h-2.5 rounded-full bg-[var(--color-accent)] ring-2 ring-[var(--color-accent)]/20"></div>
+              <div class="w-px flex-1 mt-2 bg-[var(--color-border)]"></div>
+            </div>
+
+            <!-- Content -->
+            <div class="pb-10 flex-1 min-w-0">
+              <div class="border border-[var(--color-border)] rounded-lg p-6 bg-[var(--color-surface)]">
+                <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
+                  <div>
+                    <p class="text-lg font-bold text-[var(--color-text)]">{entry.data.company}</p>
+                    <p class="text-sm font-medium text-[var(--color-accent)] mt-0.5">{entry.data.role}</p>
+                  </div>
+                  <div class="text-right flex-shrink-0">
+                    <p class="text-sm text-[var(--color-text-muted)]">{entry.data.period}</p>
+                    <p class="text-xs text-[var(--color-text-muted)] mt-0.5">{entry.data.location}</p>
+                  </div>
+                </div>
+
+                <p class="text-[var(--color-text-muted)] leading-relaxed mb-4">
+                  {entry.data.summary}
+                </p>
+
+                {entry.data.highlights && entry.data.highlights.length > 0 && (
+                  <ul class="space-y-2">
+                    {entry.data.highlights.map((highlight: string) => (
+                      <li class="flex gap-2 text-sm text-[var(--color-text-muted)] leading-relaxed">
+                        <span class="text-[var(--color-accent)] flex-shrink-0 mt-0.5">—</span>
+                        <span>{highlight}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                {entry.slug === 'brakes-india' && (
+                  <p class="mt-4 text-xs text-[var(--color-text-muted)] border-t border-[var(--color-border)] pt-3 italic">
+                    Note: Evaluation metrics shown are from a practice dataset used during development, not production data.
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Note box -->
+    <div class="border border-[var(--color-border)] rounded-lg p-4 bg-[var(--color-surface)] max-w-xl">
+      <p class="text-sm text-[var(--color-text-muted)]">
+        More experience entries will appear here as they are added.
+      </p>
+    </div>
+
+  </main>
+
+  <Footer />
+</BaseLayout>
