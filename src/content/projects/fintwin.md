@@ -4,6 +4,14 @@ description: "Personal finance platform built on a microservice architecture wit
 status: "complete"
 techs: ["Java", "Spring Boot", "Spring Cloud", "Next.js", "PostgreSQL", "Redis", "Kafka", "Docker Compose"]
 github: "https://github.com/mukundangopalachary/fintwin"
+images:
+  - "/content/fintwin1.png"
+  - "/content/fintwin2.png"
+  - "/content/fintwin3.png"
+  - "/content/fintwin4.png"
+  - "/content/fintwin5.png"
+  - "/content/fintwin6.png"
+  - "/content/fintwin_export_excel.png"
 featured: true
 order: 2
 ---
