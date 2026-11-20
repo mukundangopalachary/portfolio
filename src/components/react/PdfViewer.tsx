@@ -213,6 +213,11 @@ export default function PdfViewer({ src, title, fileName }: Props) {
     if (!open) return;
     function onKey(e: KeyboardEvent) {
       if (e.key === 'Escape') { handleClose(); return; }
+      if (e.ctrlKey) {
+        if (e.key === '+' || e.key === '=' || e.key === 'Add') { e.preventDefault(); zoomIn(); return; }
+        if (e.key === '-' || e.key === 'Subtract') { e.preventDefault(); zoomOut(); return; }
+        if (e.key === '0') { e.preventDefault(); setScale('fit'); return; }
+      }
       if (e.key === '+' || e.key === '=') { zoomIn(); return; }
       if (e.key === '-') { zoomOut(); return; }
       if (e.key === '0') { setScale('fit'); return; }
@@ -266,10 +271,14 @@ export default function PdfViewer({ src, title, fileName }: Props) {
       {/* Dialog overlay */}
       {open && (
         <div
+          className="fixed inset-0 z-[200] flex items-center justify-center sm:p-6 backdrop-blur-md bg-black/60"
+          onClick={(e) => { if (e.target === e.currentTarget) handleClose(); }}
+        >
+        <div
           role="dialog"
           aria-modal="true"
           aria-label={title}
-          className="fixed inset-0 z-[200] flex flex-col bg-[var(--color-bg)]"
+          className="flex flex-col w-full h-full sm:max-h-[90vh] sm:max-w-4xl sm:rounded-xl overflow-hidden bg-[var(--color-bg)] sm:border sm:border-[var(--color-border)] sm:shadow-2xl"
         >
           {/* Toolbar */}
           <div
@@ -392,6 +401,7 @@ export default function PdfViewer({ src, title, fileName }: Props) {
               {numPages} {numPages === 1 ? 'page' : 'pages'}
             </div>
           )}
+        </div>
         </div>
       )}
     </>
