@@ -28,4 +28,20 @@ const experience = defineCollection({
   }),
 });
 
-export const collections = { projects, experience };
+const caseStudies = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/case-studies' }),
+  schema: z.object({
+    title: z.string(),
+    summary: z.string(),
+    stack: z.array(z.string()),
+    builtWith: z.string(),
+    isDemo: z.boolean(),
+    resultBefore: z.string(),
+    resultAfter: z.string(),
+    reportPdf: z.string().optional(),
+    github: z.string().optional(),
+    order: z.number(),
+  }),
+});
+
+export const collections = { projects, experience, caseStudies };

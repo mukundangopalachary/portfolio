@@ -207,3 +207,12 @@ img {
   color: var(--color-text-muted);
   font-style: italic;
 }
+
+.prose img {
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  max-width: 100%;
+  height: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}

@@ -4,6 +4,7 @@ import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import Badge from '../components/ui/Badge.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
+import PdfViewer from '../components/react/PdfViewer';
 import { SOCIAL } from '../lib/constants';
 
 interface ServiceCard {
@@ -11,6 +12,13 @@ interface ServiceCard {
   description: string;
   tags: string[];
 }
+
+const auditService: ServiceCard = {
+  name: 'AI-Built App Audit',
+  description:
+    'Built your app with Lovable, Bolt, Cursor or Replit? I review it against a 17-point security and production checklist (exposed keys, Supabase RLS, auth, rate limiting, deployment) and fix what matters.',
+  tags: ['Supabase', 'Security', 'Lovable', 'Bolt', 'Vercel'],
+};
 
 const services: ServiceCard[] = [
   {
@@ -39,6 +47,8 @@ const services: ServiceCard[] = [
   },
 ];
 
+const REPORT_PDF = '/content/case-studies/pulsedesk/sample-audit-report.pdf';
+
 const platforms = [
   { label: 'Fiverr', href: SOCIAL.fiverr.url },
   { label: 'Topmate', href: SOCIAL.topmate.url },
@@ -48,7 +58,7 @@ const platforms = [
 
 <BaseLayout
   title="Services — Mukundan Gopalachary"
-  description="Freelance backend development, full-stack development, API engineering, and cloud deployment."
+  description="Freelance backend development, security audits for AI-built apps, API engineering, and cloud deployment."
 >
   <Header />
 
@@ -59,8 +69,8 @@ const platforms = [
       <h1 class="text-4xl font-bold text-[var(--color-text)] mb-4">Services</h1>
       <div class="max-w-xl space-y-3">
         <p class="text-[var(--color-text-muted)] leading-relaxed">
-          I take on freelance work alongside my studies. If you need a backend, API, or
-          deployment built correctly, I can help.
+          I take on freelance work alongside my studies. If you need a backend, API,
+          deployment, or a security audit for an AI-built app, I can help.
         </p>
         <p class="text-sm text-[var(--color-text-muted)] leading-relaxed">
           I'm a final-year CS student with real project experience. I take engineering quality
@@ -72,6 +82,26 @@ const platforms = [
     <!-- Service cards -->
     <section class="mb-12">
       <SectionHeading title="What I offer" />
+
+      <!-- Featured audit card -->
+      <div class="mb-4 border border-[var(--color-accent)]/30 rounded-lg p-6 bg-[var(--color-surface)] flex flex-col gap-4">
+        <div class="flex items-center gap-2">
+          <h3 class="text-base font-semibold text-[var(--color-text)]">
+            {auditService.name}
+          </h3>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono bg-amber-500/10 border border-amber-500/20 text-amber-400">
+            New
+          </span>
+        </div>
+        <p class="text-sm text-[var(--color-text-muted)] leading-relaxed">
+          {auditService.description}
+        </p>
+        <div class="flex flex-wrap gap-2">
+          {auditService.tags.map((tag) => (
+            <Badge label={tag} variant="tech" />
+          ))}
+        </div>
+      </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" data-animate="stagger-grid">
         {services.map((service) => (
@@ -89,6 +119,59 @@ const platforms = [
             </div>
           </div>
         ))}
+      </div>
+    </section>
+
+    <!-- Case study section -->
+    <section class="mb-12" data-animate="fade-up">
+      <SectionHeading title="Case study" />
+
+      <a
+        href="/case-studies/pulsedesk"
+        class="block border border-[var(--color-border)] rounded-lg p-6 bg-[var(--color-surface)] hover:border-[var(--color-accent)]/50 transition-colors group"
+      >
+        <h3 class="text-base font-semibold text-[var(--color-text)] mb-2 group-hover:text-[var(--color-accent)] transition-colors">
+          PulseDesk — AI-Built App Audit
+        </h3>
+        <p class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-4">
+          Security and production-readiness audit for a Bolt-generated customer feedback platform.
+        </p>
+        <div class="flex flex-wrap items-center gap-3 mb-4">
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-mono border border-[var(--color-border)] text-[var(--color-text-muted)]">
+            6 failing checks → 0
+          </span>
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-mono border border-green-500/30 text-green-400 bg-green-500/10">
+            AI endpoint HTTP 200 → 401
+          </span>
+        </div>
+        <span class="text-sm text-[var(--color-accent)] group-hover:opacity-80 transition-opacity">
+          Read case study →
+        </span>
+      </a>
+    </section>
+
+    <!-- Sample report section -->
+    <section class="mb-12" data-animate="fade-up">
+      <SectionHeading title="Sample report" />
+      <p class="text-sm text-[var(--color-text-muted)] mb-6 leading-relaxed max-w-xl">
+        A 2-page sample of the audit report format. View it here or download the PDF.
+      </p>
+
+      <div class="flex flex-wrap items-center gap-3">
+        <PdfViewer
+          src={REPORT_PDF}
+          title="Sample audit report"
+          fileName="pulsedesk-sample-audit-report.pdf"
+          client:visible
+        />
+
+        <a
+          href={REPORT_PDF}
+          download="pulsedesk-sample-audit-report.pdf"
+          class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded border border-[var(--color-border)] text-[var(--color-text)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors"
+        >
+          Download PDF
+        </a>
       </div>
     </section>
 
